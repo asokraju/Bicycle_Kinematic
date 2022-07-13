@@ -1,4 +1,4 @@
-from gym.envs.registration import register
+from gym_bicycle.envs.registration import register
 
 register(
     id='bicycle-v0',

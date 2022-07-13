@@ -3,6 +3,8 @@ import gym
 from gym import spaces
 from gym.utils import seeding
 
+# env registering https://stackoverflow.com/questions/45068568/how-to-create-a-new-gym-environment-in-openai
+
 class BicycleKin(gym.Env):
     """
     Description:
@@ -54,7 +56,7 @@ class BicycleKin(gym.Env):
         v_bound = [0.1, 1.],
         w_bound = [-0.5, 0.5],
         total_steps: int = 50000,
-        reward_weights = [-1., -100., -1., -50., -0.1, -0.1]
+        reward_weights = [-0.01, -1., -0.01, -0.5, -0.001, -0.001]
         ):
         self.l = length
         self.sampling_time = sampling_time
@@ -70,11 +72,11 @@ class BicycleKin(gym.Env):
         self.w_bound = w_bound
         self.reward_weights = reward_weights
 
-        # high = np.array([np.finfo(np.float32).max, np.finfo(np.float32).max, np.finfo(np.float32).max])
+        high = np.array([np.finfo(np.float32).max, np.finfo(np.float32).max, np.finfo(np.float32).max])
         # print(high)
-        low_obs = np.full(shape = (3,), fill_value = -np.inf, dtype=np.float32)
-        high_obs = np.full(shape = (3,), fill_value = np.inf, dtype=np.float32)
-        self.observation_space = spaces.Box(low_obs, high_obs, dtype=np.float32)
+        # low_obs = np.full(shape = (3,), fill_value = -np.inf, dtype=np.float32)
+        # high_obs = np.full(shape = (3,), fill_value = np.inf, dtype=np.float32)
+        self.observation_space = spaces.Box(-high, high, dtype=np.float32)
 
         self.action_low = np.array([self.v_bound[0], self.w_bound[0]], dtype=np.float32)
         self.action_high = np.array([self.v_bound[1], self.w_bound[1]], dtype=np.float32)
@@ -91,8 +93,8 @@ class BicycleKin(gym.Env):
         a_w, b_w = self.w_bound
         
         v_s, w_s = action[0], action[1]
-        v = a_v + 0.5*(v_s+1)*(b_v-a_v)
-        w = a_w + 0.5*(w_s+1)*(b_w-a_w)
+        v = a_v + 0.5*(v_s+1.)*(b_v-a_v)
+        w = a_w + 0.5*(w_s+1.)*(b_w-a_w)
         return np.array([v, w], dtype=np.float32)
 
     def step(self, action):

@@ -154,7 +154,7 @@ class BicycleKin(gym.Env):
         return obstacle
     
     def reset(self):
-        env.time = 0
+        self.time = 0
         if self.rand_initial_pos:
             obstacle = True
             while obstacle:

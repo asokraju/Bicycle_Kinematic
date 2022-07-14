@@ -84,3 +84,15 @@ def train_model(steps):
     callback = SaveOnBestTrainingRewardCallback(check_freq=1000, log_dir=log_dir)
     model.learn(steps, tb_log_name="test_1", callback=callback)
     return model
+  
+def test():
+    env_kwargs = {
+        "discretization_steps":100, 
+        "rand_initial_pos":True, 
+        'obstacle_radius':[1., 1.]
+    }
+    gym.envs.register(
+     id='BicycleKin-v0',
+     entry_point='gym_bicycle.envs:BicycleKin'
+    ) 
+    env = gym.make('BicycleKin-v0', **env_kwargs)

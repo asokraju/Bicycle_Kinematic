@@ -58,6 +58,7 @@ class BicycleKin(gym.Env):
         total_steps: int = 50000,
         reward_weights = [-0.01, -1., -0.01, -0.5, -0.001, -0.001]
         ):
+        super(BicycleKin, self).__init__()
         self.l = length
         self.sampling_time = sampling_time
         self.discretization_steps = discretization_steps
@@ -76,8 +77,8 @@ class BicycleKin(gym.Env):
         # print(high)
         # low_obs = np.full(shape = (3,), fill_value = -np.inf, dtype=np.float32)
         # high_obs = np.full(shape = (3,), fill_value = np.inf, dtype=np.float32)
-        self.observation_space = spaces.Box(-high, high, dtype=np.float32)
-
+        # self.observation_space = spaces.Box(-high, high, dtype=np.float32)
+        self.observation_space = spaces.Box(-np.inf, np.inf, shape=(3,), dtype=np.float64)
         self.action_low = np.array([self.v_bound[0], self.w_bound[0]], dtype=np.float32)
         self.action_high = np.array([self.v_bound[1], self.w_bound[1]], dtype=np.float32)
         self.action_space = spaces.Box(low=np.array([-1., -1.]), high=np.array([1., 1.], dtype=np.float32))
